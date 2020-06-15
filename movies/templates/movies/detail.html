@@ -8,23 +8,27 @@
       <img src="{{ movie.backdrop_path }}" style="width: 100%; height: 20vw;">
     </div>
     <div>
+      <!-- 비동기요청 vue 버전 -->
       <div>
         <p class="d-inline"> {{ movie.title }} </p>
-        {% if request.user in movie.like_users.all %}
-          <a href="{% url 'movies:movie_like' movie.pk %}"><i class="fas fa-heart" style="color: red;"></i></a> :{{ movie.like_users.count }}
-        {% else %}
-          <a href="{% url 'movies:movie_like' movie.pk %}"><i class="far fa-heart" style="color: red;"></i></a> :{{ movie.like_users.count }}
-        {% endif %}
+        <i @click="like" class="fas fa-heart" style="color: red;"></i>:[[likes]]
+        <hr>
+
       </div>
+      <!-- -->
       <h5>{{ movie.title_en }} <span class="badge badge-warning">{{ movie.vote_average }}</span></h5>
       <h5>개봉 : {{ movie.release_date }}</h5>
-      <p> 장르 : {{ movie.genre }} </p> <!-- 나중에 여기만 수정하면 됨 -->
+      {% for genre in genres %}
+        <small><h5 class="badge badge-info">{{ genre.name }}</h5></small>
+      {% endfor %}
       <br>
       {% if movie.overview %}
         <h5>{{ movie.overview }}</h5>
       {% else %}
         <h3> 해당 영화는 OverView 가 제공되지 않습니다. </h3>
       {% endif %}
+
+
     </div>
   </div>
   <br>
@@ -53,3 +57,38 @@
     </tbody>
   </table>
 {% endblock  %}
+
+
+{% block script %}
+  <script>
+    const test = new Vue({
+      el: '#app',
+      delimiters: ['[[', ']]'],
+      data: {
+        is_like_movie: false,
+        likes : 0,
+      }
+      ,
+      methods: {
+        like: function () {
+          const url = "{% url 'movies:movie_like_api' movie.pk %}"
+          axios.get(url)
+            .then(res => {
+              console.log(res.data.is_like_movie)
+              if (res.data.is_like_movie) {
+                this.likes++;
+                this.is_like_movie = true
+              } else {
+                this.likes--;
+                this.is_like_movie = false
+              }
+            })
+        }
+      },
+      mounted: function () {
+        this.is_like_movie = {% if request.user in movie.like_users.all %} true {% else %} false {% endif %},
+        this.likes = {{ movie.like_users.count }}
+      }
+    })
+  </script>
+{% endblock %}

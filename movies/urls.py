@@ -19,5 +19,6 @@ urlpatterns = [
 
     # Like
     path('<int:movie_pk>/movie_like/', views.movie_like, name='movie_like'),
+    path('<int:movie_pk>/movie_like_api/', views.movie_like_api, name='movie_like_api'),
     path('<int:review_pk>/review_like/', views.review_like, name='review_like'),
 ]

@@ -130,6 +130,22 @@ def movie_like(request, movie_pk):
         movie.like_users.add(request.user)
     return redirect('movies:detail', movie_pk)
 
+# Like
+@login_required
+def movie_like_api(request, movie_pk):
+    movie = get_object_or_404(Movie, pk=movie_pk)
+    if movie.like_users.filter(pk=request.user.pk).exists():
+        movie.like_users.remove(request.user)
+        is_like_movie = False
+    else:
+        movie.like_users.add(request.user)
+        is_like_movie = True
+    data = {
+        'is_like_movie': is_like_movie
+    }
+    from django.http import JsonResponse
+    return JsonResponse(data)
+
 def review_like(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     if review.like_users.filter(pk=request.user.pk).exists():
