@@ -235,7 +235,7 @@ from rest_framework.response import Response
 from .serializers import ArticleSerializer
 
 @api_view(['GET'])
-def get_recommend(request):
+def returnData2(request):
     ...
     serializer = ArticleSerializer(QuertSet, many=True)
     data = {
