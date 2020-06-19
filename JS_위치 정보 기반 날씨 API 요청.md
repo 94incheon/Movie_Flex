@@ -110,7 +110,7 @@ if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
         const url = "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}"
         // url를 이용해 날씨를 요청 후, 활용한다.
-    }, function(error) {
+    }, function(err) {
         	if (err.code === 1) {
                 const url = "https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={API_KEY}"
                 // url를 이용해 날씨를 요청 후, 활용한다.
