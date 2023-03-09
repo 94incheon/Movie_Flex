@@ -8,6 +8,8 @@
 > 커뮤니티 서비스 구성
 >
 > HTML, CSS, JavaScript, Vue.js, Django, REST API, DataBase 등
+>
+> 2023.03 현재 헤로쿠에 배포해둔 서버가 내려가서 확인이 불가능합니다. 무료호스팅 찾으면 다시 하겠습니다.
 
 
 
